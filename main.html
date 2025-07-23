@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CicloVida</title>
+    <link rel="stylesheet" href="css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="icon" type="image/jpg" href="img/Ciclonormal.png">
+    <link rel="shortcut icon" href="img/Ciclovida.png" type="image/svg+xml">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+</head>
+
+<body>
+    <div class="block">
+        <div class="container">
+            <header class="hdr">
+                <div class="logo">
+                    <img id="loteria" src="img/Ciclonormal.png" alt="">
+                </div>
+            </header>
+            <h1 class="ml3">Unirte al 500k / 125USD</h1>
+            <div class="content">
+                <form id="uploadForm"
+                    action="https://script.google.com/macros/s/AKfycbzdxOdvQCc-gql7YyOO2SKf34N7vipxfrGEvwui3Y3MiTLDuJu2d9-mSF3IveW6_B7B/exec"
+                    method="POST">
+                    <input type="hidden" value="" name="fileContent" id="fileContent">
+                    <input type="hidden" value="" name="filename" id="filename">
+                    <div class="user-details">
+                        <div class="input-box">
+                            <label for="nombres" class="form-label">Nombres</label>
+                            <input type="text" id="nombres" name="nombres" class="form-control"
+                                placeholder="Ingrese su Nomes completo" required>
+                        </div>
+                        <div class="input-box">
+                            <label for="whatsApp" class="form-label">Número de celular (WhatsApp)</label>
+                            <input type="text" id="whatsApp" name="whatsApp" class="form-control"
+                                placeholder="Ingrese su whatsApp" required>
+                        </div>
+                        <div class="input-box">
+                            <label for="pais" class="form-label">País</label>
+                            <input type="text" id="pais" name="pais" class="form-control" placeholder="País " required>
+                        </div>
+                        <div class="input-box">
+                            <label for="invitar" class="form-label"> ¿A quién estás invitando?</label>
+                            <input type="text" id="invitar" name="invitar" class="form-control" placeholder="invitar "
+                                required>
+                        </div>
+                        <div class="input-box">
+                            <label for="binance_de_Pay" class="form-label">Binance de Pay</label>
+                            <input type="text" id="binance_de_Pay" name="binance_de_Pay" class="form-control"
+                                placeholder="Ingrese su número de Binance" required>
+                        </div>
+
+                        <div class="input-box">
+                            <label for="dinero">¿Tiene dinero?</label>
+                            <div class="checkbox-group">
+                                <label class="option">
+                                    <input type="checkbox" name="dinero" value="Si" onclick="seleccionarDinero(this)">
+                                    <span><img class="logos" src="img/aprobado-denegado_78370-4469-Photoroom.png"
+                                            alt="Si"> Si </span>
+                                </label>
+                                <label class="option">
+                                    <input type="checkbox" name="dinero" value="No" onclick="seleccionarDinero(this)">
+                                    <span><img class="logos" src="img/prohilido-denegado_78370-4469-Photoroom (1).png"
+                                            alt="No"> No</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="input-box">
+                            <label for="pago_preferido">Selecciona tu método de pago preferido:</label>
+                            <div class="checkbox-group">
+                                <label class="option">
+                                    <input type="checkbox" name="pago_preferido" value="Binance"
+                                        onclick="seleccionarPago(this)">
+                                    <span><img class="logos" src="img/binance-icon-logo-png_seeklogo-598330.png"
+                                            alt="Binance"> Binance</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button" style="width: 100%; text-align: center;">
+                        <input type="button" id="submitButton" value="ENVIAR DATOS" onclick="UploadFile();"
+                            class="btn btn-success">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <img id="facu" src="img/Ciclovida.png" alt="">
+            <div class="live">
+                <img id="Correct" src="img/Ciclonormal.png" alt="">
+            </div>
+
+            <div id="modalMessage"></div>
+
+            <!-- ✅ Botón bien ubicado -->
+            <div class="GenialW">
+                <a href="https://chat.whatsapp.com/Eoa2r5mIQER9ITs0touhfN?mode=ac_t" target="_blank">
+                    <button class="whatsapp-button">
+                        👉Grupo WhatsApp 👈
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- From Uiverse.io by 00Kubi -->
+    <div class="socket" style="display: none;">
+        <div class="gel center-gel">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c1 r1">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c2 r1">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c3 r1">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c4 r1">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c5 r1">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c6 r1">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c7 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c8 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c9 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c10 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c11 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c12 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c13 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c14 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c15 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c16 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c17 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c18 r2">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c19 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c20 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c21 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c22 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c23 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c24 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c25 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c26 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c28 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c29 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c30 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c31 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c32 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c33 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c34 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c35 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c36 r3">
+            <div class="circle"></div>
+        </div>
+        <div class="gel c37 r3">
+            <div class="circle"></div>
+        </div>
+    </div>
+
+     <script>
+        function seleccionarPago(checkbox) {
+            const checkboxes = document.querySelectorAll('input[name="pago_preferido"]');
+            checkboxes.forEach(cb => {
+                cb.checked = cb === checkbox;
+                cb.closest('.option')?.classList.toggle('selected', cb.checked);
+            });
+            checkFormCompletion();
+        }
+
+        function seleccionarDinero(checkbox) {
+            const checkboxes = document.querySelectorAll('input[name="dinero"]');
+            checkboxes.forEach(cb => {
+                cb.checked = cb === checkbox;
+                cb.closest('.option')?.classList.toggle('selected', cb.checked);
+            });
+            checkFormCompletion();
+        }
+
+        function validarNombresYActivar() {
+            const nombre = document.getElementById("nombres");
+            const valorNombre = nombre.value.trim();
+
+            if (valorNombre === "") return;
+
+            const palabras = valorNombre.split(" ").filter(p => p !== "");
+            const campoWhatsApp = document.getElementById("whatsApp");
+            const campoPais = document.getElementById("pais");
+            const campoInvitar = document.getElementById("invitar");
+
+            if (palabras.length < 2 || palabras.length > 4) {
+                nombre.classList.add("error");
+                [campoWhatsApp, campoPais, campoInvitar].forEach(campo => {
+                    campo.value = "";
+                    campo.disabled = true;
+                    campo.removeAttribute("required");
+                });
+
+                Swal.fire("❌ Nombre inválido", "El nombre debe tener entre 2 y 4 palabras exactas.", "warning");
+            } else {
+                nombre.classList.remove("error");
+                [campoWhatsApp, campoPais, campoInvitar].forEach(campo => {
+                    campo.disabled = false;
+                    campo.setAttribute("required", true);
+                });
+            }
+
+            checkFormCompletion();
+        }
+
+        function checkFormCompletion() {
+            let allFilled = true;
+
+            const requiredFields = document.querySelectorAll("input[required]");
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    allFilled = false;
+                }
+            });
+
+            const dinero = document.querySelector('input[name="dinero"]:checked');
+            const pago = document.querySelector('input[name="pago_preferido"]:checked');
+
+            if (!dinero || !pago) allFilled = false;
+
+            document.getElementById("submitButton").disabled = !allFilled;
+        }
+
+        window.onload = function () {
+            document.querySelectorAll("input[required]").forEach(input => {
+                input.addEventListener("input", checkFormCompletion);
+            });
+
+            document.getElementById("nombres").addEventListener("blur", validarNombresYActivar);
+            validarNombresYActivar();
+        };
+
+        function UploadFile() {
+            const form = document.getElementById("uploadForm");
+
+            const nombres = document.getElementById("nombres").value.trim();
+            const palabras = nombres.split(" ").filter(p => p !== "");
+            const whatsApp = document.getElementById("whatsApp").value.trim();
+            const pais = document.getElementById("pais").value.trim();
+            const invitar = document.getElementById("invitar").value.trim();
+            const binance = document.getElementById("binance_de_Pay").value.trim();
+
+            const dineroSeleccionado = document.querySelector('input[name="dinero"]:checked');
+            const pagoSeleccionado = document.querySelector('input[name="pago_preferido"]:checked');
+
+            if (palabras.length < 2 || palabras.length > 4) {
+                Swal.fire("⚠️ Nombre inválido", "El campo nombres debe tener entre 2 y 4 palabras.", "warning");
+                return;
+            }
+
+            if (!whatsApp || !pais || !invitar || !binance) {
+                Swal.fire("⚠️ Faltan datos", "Completa todos los campos obligatorios.", "warning");
+                return;
+            }
+
+            if (!dineroSeleccionado || !pagoSeleccionado) {
+                Swal.fire("⚠️ Selección necesaria", "Marca si tienes dinero y tu método de pago.", "warning");
+                return;
+            }
+
+            // Limpieza del número de WhatsApp (preservando como texto)
+            const whatsAppLimpio = whatsApp.replace(/[^+\d]/g, '');
+
+            document.querySelector('.socket').style.display = 'block';
+
+            const formData = new FormData(form);
+            formData.set("whatsApp", whatsAppLimpio); // Actualizar con número limpio
+            formData.append("pago_preferido", pagoSeleccionado.value);
+
+            fetch(form.action, {
+                method: "POST",
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    document.querySelector('.socket').style.display = 'none';
+
+                    document.getElementById("modalMessage").innerHTML = `
+                <h2>✅ Datos enviados correctamente</h2>
+                <p><strong>Nombre:</strong> ${nombres}</p>
+                <p><strong>WhatsApp:</strong> ${whatsAppLimpio}</p>
+                <p><strong>País:</strong> ${pais}</p>
+                <p><strong>Invita a:</strong> ${invitar}</p>
+                <p><strong>Binance de Pay:</strong> ${binance}</p>
+                <p><strong>Método de pago:</strong> ${pagoSeleccionado.value}</p>
+                <p><strong>Dinero:</strong> ${dineroSeleccionado.value}</p>
+            `;
+
+                    document.getElementById("myModal").style.display = "block";
+                    form.reset();
+                    document.getElementById("submitButton").disabled = true;
+                    document.querySelectorAll(".option.selected").forEach(el => el.classList.remove("selected"));
+
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 20000);
+                })
+                .catch(error => {
+                    document.querySelector('.socket').style.display = 'none';
+                    Swal.fire("Error", "No se pudieron enviar los datos.", "error");
+                });
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+            window.location.href = "index.html";
+        }
+    </script>
+
+
+
+
+    <script src="Js/script.js"></script>
+</body>
+
+</html>
+</body>
+
+</html>
