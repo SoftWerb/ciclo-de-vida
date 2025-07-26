@@ -127,7 +127,7 @@
 
 
 
-    <script>
+   <script>
         // Constants
         const referenciasQR = {
             "Binance": [
@@ -322,6 +322,7 @@
 
             document.getElementById("paso1").style.display = "none";
             document.getElementById("paso2").style.display = "block";
+            document.getElementById("paso3").style.display = "none"; // Hide paso3 initially
 
             iniciarCuentaRegresiva(600);
         }
@@ -367,6 +368,7 @@
 
             Swal.fire("✅ Orden Confirmada", `Tu ID de orden es: ${orderId}`, "success").then(() => {
                 enviarDatosAlServidor(orderId); // Pass orderId to the server
+                document.getElementById("paso3").style.display = "none";
             });
         }
 
@@ -415,6 +417,7 @@
 
             document.getElementById("paso1").style.display = "block";
             document.getElementById("paso2").style.display = "none";
+            document.getElementById("paso3").style.display = "none"; // Hide paso3
         }
 
         function validateFormFields(palabras, palabrasInvitar, whatsApp, pais, invitar, dineroSeleccionado, pagosSeleccionados, binance) {
@@ -517,7 +520,7 @@
 
             setTimeout(() => {
                 window.location.href = "index.html";
-            }, 20000);
+            }, 60000);
         }
 
         function resetForm(form) {
