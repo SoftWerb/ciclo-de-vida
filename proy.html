@@ -127,7 +127,7 @@
 
 
 
-    <script>
+     <script>
         // Constants
         const referenciasQR = {
             "Binance": [
@@ -249,10 +249,10 @@
         }
 
         function togglePaymentFields(checkboxes, seleccionados) {
-            
+
             const binanceBox = document.getElementById("binance_de_Pay").parentElement;
 
-            
+
             binanceBox.style.display = "none";
 
             checkboxes.forEach(cb => {
@@ -323,12 +323,13 @@
 
             document.getElementById("paso1").style.display = "none";
             document.getElementById("paso2").style.display = "block";
+            document.getElementById("paso3").style.display = "none"; // Hide paso3 initially
 
             iniciarCuentaRegresiva(600);
         }
 
         function setPaymentTitle(plataformaSeleccionada, tituloPago) {
-             if (plataformaSeleccionada === "Binance") {
+            if (plataformaSeleccionada === "Binance") {
                 tituloPago.textContent = "Pago: 25 USD";
             }
         }
@@ -368,6 +369,7 @@
 
             Swal.fire("✅ Orden Confirmada", `Tu ID de orden es: ${orderId}`, "success").then(() => {
                 enviarDatosAlServidor(orderId); // Pass orderId to the server
+                document.getElementById("paso3").style.display = "none";
             });
         }
 
@@ -382,17 +384,17 @@
             const palabrasInvitar = invitar.split(" ").filter(p => p !== "");
 
             const binance = document.getElementById("binance_de_Pay").value.trim();
-          
+
 
             const dineroSeleccionado = document.querySelector('input[name="dinero"]:checked');
             const pagosSeleccionados = Array.from(document.querySelectorAll('input[name="pago_preferido"]:checked'));
 
-            if (!validateFormFields(palabras, palabrasInvitar, whatsApp, pais, invitar, dineroSeleccionado, pagosSeleccionados,  binance)) {
+            if (!validateFormFields(palabras, palabrasInvitar, whatsApp, pais, invitar, dineroSeleccionado, pagosSeleccionados, binance)) {
                 return;
             }
 
             const metodoTexto = pagosSeleccionados.map(p => p.value).join(', ');
-            
+
             const binanceHtml = binance ? `<p><strong>Binance:</strong> ${binance}</p>` : '';
             const metodoHtml = `<p><strong>Método(s) de pago:</strong> ${metodoTexto}</p>`;
 
@@ -416,6 +418,7 @@
 
             document.getElementById("paso1").style.display = "block";
             document.getElementById("paso2").style.display = "none";
+            document.getElementById("paso3").style.display = "none"; // Hide paso3
         }
 
         function validateFormFields(palabras, palabrasInvitar, whatsApp, pais, invitar, dineroSeleccionado, pagosSeleccionados, binance) {
@@ -503,7 +506,7 @@
             <p><strong>Dinero:</strong> ${dineroSeleccionado?.value || 'N/A'}</p>
             <p><strong>ID de Orden:</strong> ${orderId}</p>
             <br>
-            <button onclick="window.open('https://chat.whatsapp.com/LYLFjBIsoWs2S9LgmPR3sv?mode=ac_t', '_blank'); Swal.close();"
+            <button onclick="window.open('https://chat.whatsapp.com/Eoa2r5mIQER9ITs0touhfN?mode=ac_t', '_blank'); Swal.close();"
                 style="background-color: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 16px; cursor: pointer;">
                 👉 Únete al Grupo WhatsApp 👈
             </button>
