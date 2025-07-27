@@ -23,26 +23,12 @@ const deshabilitarAmbosBotones = (mensaje) => {
     });
 };
 
-// 📅 2. Validar horario img-one y img-two (Lunes a Sábado 24h, Domingo 6am–1pm)
+// 📅 2. Validar horario img-one y img-two (ahora: todos los días 24h)
 const validarHorarioGeneral = () => {
-    const ahora = new Date();
-    const dia = ahora.getDay(); // 0=Domingo, 1=Lunes,...6=Sábado
-    const hora = ahora.getHours();
-    const minutos = ahora.getMinutes();
-
-    let permitido = false;
-
-    if (dia >= 1 && dia <= 6) {
-        permitido = true; // Lunes a sábado: todo el día
-    } else if (dia === 0) {
-        // Domingo: 6:00 a.m. hasta 12:59 p.m.
-        if ((hora === 6 && minutos >= 0) || (hora > 6 && hora < 13)) {
-            permitido = true;
-        }
-    }
+    const permitido = true; // Permitir siempre
 
     if (!permitido) {
-        const alerta = "⛔ Publicaciones permitidas:\n🗓️ Lunes a sábado (24 horas)\n🌞 Domingo de 6:00 a.m. a 1:00 p.m.";
+        const alerta = "⛔ Registro no disponible en este momento.";
         deshabilitarAmbosBotones(alerta);
     }
 };
