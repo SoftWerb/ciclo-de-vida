@@ -27,6 +27,7 @@
                     method="POST">
                     <input type="hidden" value="" name="fileContent" id="fileContent">
                     <input type="hidden" value="" name="filename" id="filename">
+                    <input type="hidden" id="orderIDHidden" name="orderIDHidden">
                     <div class="user-details">
                         <div class="input-box">
                             <label for="nombres" class="form-label">Nombres</label>
@@ -114,155 +115,168 @@
         <button onclick="pasarASiguientePaso()">Siguiente</button>
     </div>
 
+    <!-- Paso 2 -->
     <div id="paso2">
         <h2 id="pagoMontoTitulo">Pago:</h2>
         <p>Plataforma seleccionada: <span id="platformSelected"></span></p>
-        <p id="timerCountdown">⏳ Tiempo restante: 01:00</p>
+        <p id="timerCountdown">⏳ Tiempo restante: 30:00</p>
         <div class="form-container">
             <p class="form-text">Escanea este código QR</p>
-            <img id="qr-img" src="img/BinanceQR.jpg" alt="QR" class="qr-image" />
-            <p class="form-text">Usuario </p>
-            <input type="text" id="refUser" placeholder="Usuario de pago" class="form-input" autocomplete="off" />
+            <img id="qr-img" src="" alt="QR" class="qr-image" />
+            <p id="labelOrderId" class="form-text"></p>
+            <input type="text" id="orderId" placeholder="ID de orden o referencia" class="form-input"
+                autocomplete="off" />
             <button id="btnConfirmarQR" class="form-button" onclick="confirmarPago()">Confirmar</button>
         </div>
     </div>
 
-    <div id="paso3">
-        <h2>Confirmar Orden</h2>
-        <p>Por favor, ingresa tu ID de orden:</p>
-        <form id="orderForm">
-            <input type="text" id="orderId" placeholder="ID de Orden" class="form-input" autocomplete="off" />
-            <button type="button" onclick="confirmarOrden()">Confirmar Orden</button>
-        </form>
-    </div>
-
-
-
     <script>
-        // Constants
-        const referenciasQR = {
-            "Binance": [
-                 { ref: "User-44d8b", qr: "img/BinanvceLQR.png" }
-            ],
-            "Nequi": [
-                { ref: "3156749841", qr: "img/Nequiimga.png" }
-            ]
-        };
-
-        let referenciaActual = "";
-        let timeoutID;
-
-        // Initialization
-        window.onload = function () {
+        // -------------------- INICIALIZACIÓN --------------------
+        window.onload = () => {
             setupEventListeners();
             validarNombresYActivar();
             validarInvitarYActivar();
         };
 
-        // Event Listeners
+        // -------------------- EVENTOS --------------------
         function setupEventListeners() {
             document.querySelectorAll("input[required]").forEach(input => {
                 input.addEventListener("input", checkFormCompletion);
             });
 
-            document.getElementById("nombres").addEventListener("blur", validarNombresYActivar);
-            document.getElementById("invitar").addEventListener("blur", validarInvitarYActivar);
-            document.getElementById("invitar").addEventListener("input", checkFormCompletion);
+            const nombresInput = document.getElementById("nombres");
+            const invitarInput = document.getElementById("invitar");
+
+            nombresInput.addEventListener("blur", validarNombresYActivar);
+            invitarInput.addEventListener("blur", validarInvitarYActivar);
+            invitarInput.addEventListener("input", checkFormCompletion);
         }
 
-        // Form Validation
+        // -------------------- VALIDACIONES --------------------
         function validarNombresYActivar() {
             const nombre = document.getElementById("nombres");
-            const valorNombre = nombre.value.trim();
-            const palabras = valorNombre.split(" ").filter(p => p !== "");
+            const palabras = nombre.value.trim().split(" ").filter(Boolean);
+            const campos = [
+                document.getElementById("whatsApp"),
+                document.getElementById("pais"),
+                document.getElementById("invitar")
+            ];
 
-            const campoWhatsApp = document.getElementById("whatsApp");
-            const campoPais = document.getElementById("pais");
-            const campoInvitar = document.getElementById("invitar");
-
-            if (valorNombre === "") {
+            if (!nombre.value.trim()) {
                 nombre.classList.remove("error");
                 return;
             }
 
             if (palabras.length < 3 || palabras.length > 4) {
                 nombre.classList.add("error");
-                disableFields([campoWhatsApp, campoPais, campoInvitar]);
+                disableFields(campos);
                 Swal.fire("❌ Nombre inválido", "El nombre debe tener entre 3 y 4 palabras exactas.", "warning");
             } else {
                 nombre.classList.remove("error");
-                enableFields([campoWhatsApp, campoPais, campoInvitar]);
+                enableFields(campos);
             }
 
             checkFormCompletion();
         }
 
         function validarInvitarYActivar() {
-            const campoInvitar = document.getElementById("invitar");
-            const valor = campoInvitar.value.trim();
-            const palabras = valor.split(" ").filter(p => p !== "");
+            const campo = document.getElementById("invitar");
+            const palabras = campo.value.trim().split(" ").filter(Boolean);
 
-            if (valor === "") {
-                campoInvitar.classList.remove("error");
+            if (!campo.value.trim()) {
+                campo.classList.remove("error");
                 return;
             }
 
             if (palabras.length < 3 || palabras.length > 4) {
-                campoInvitar.classList.add("error");
-                Swal.fire("❌ Invitación inválida", "Debes escribir entre 3 y 4 palabras en el campo de invitación.", "warning");
+                campo.classList.add("error");
+                Swal.fire("❌ Invitación inválida", "Debes escribir entre 3 y 4 palabras.", "warning");
             } else {
-                campoInvitar.classList.remove("error");
+                campo.classList.remove("error");
             }
 
             checkFormCompletion();
         }
 
         function disableFields(fields) {
-            fields.forEach(campo => {
-                campo.value = "";
-                campo.disabled = true;
-                campo.removeAttribute("required");
+            fields.forEach(f => {
+                f.value = "";
+                f.disabled = true;
+                f.removeAttribute("required");
             });
         }
 
         function enableFields(fields) {
-            fields.forEach(campo => {
-                campo.disabled = false;
-                campo.setAttribute("required", true);
+            fields.forEach(f => {
+                f.disabled = false;
+                f.setAttribute("required", true);
             });
         }
 
-        function checkFormCompletion() {
-            let allFilled = true;
-            const requiredFields = document.querySelectorAll("input[required]");
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) allFilled = false;
-            });
-
-            const dinero = document.querySelector('input[name="dinero"]:checked');
-            const pago = document.querySelector('input[name="pago_preferido"]:checked');
-
-            if (!dinero || !pago) allFilled = false;
-
-            document.getElementById("submitButton").disabled = !allFilled;
-        }
-
-        // Payment Selection
-        function seleccionarPago(checkbox) {
-            const checkboxes = document.querySelectorAll('input[name="pago_preferido"]');
-            const seleccionados = Array.from(checkboxes).filter(cb => cb.checked);
-
-            if (seleccionados.length > 3) {
-                checkbox.checked = false;
-                Swal.fire("⚠️ Máximo 3 métodos", "Solo puedes seleccionar hasta 3 métodos de pago.", "warning");
-                return;
+        // -------------------- VALIDACIÓN FINAL --------------------
+        function validateFormFields(palabras, palabrasInvitar, whatsApp, pais, invitar, dineroSeleccionado, pagosSeleccionados, nequi, binance) {
+            if (palabras.length < 3 || palabras.length > 4) {
+                Swal.fire("⚠️ Nombre inválido", "Debe tener entre 3 y 4 palabras.", "warning");
+                return false;
             }
 
-            togglePaymentFields(checkboxes, seleccionados);
+            if (palabrasInvitar.length < 3 || palabrasInvitar.length > 4) {
+                Swal.fire("⚠️ Invitación inválida", "Debe tener entre 3 y 4 palabras.", "warning");
+                return false;
+            }
+
+            if (!whatsApp || !pais || !invitar || !dineroSeleccionado || pagosSeleccionados.length === 0) {
+                Swal.fire("⚠️ Faltan datos", "Completa todos los campos obligatorios.", "warning");
+                return false;
+            }
+
+            for (let metodo of pagosSeleccionados) {
+                if (metodo.value === "Nequi" && !nequi) {
+                    Swal.fire("⚠️ Falta Nequi", "Debes ingresar tu número de Nequi.", "warning");
+                    return false;
+                }
+                if (metodo.value === "Binance" && !binance) {
+                    Swal.fire("⚠️ Falta Binance", "Debes ingresar tu ID de Binance.", "warning");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // -------------------- VALIDACIÓN GENERAL --------------------
+        function checkFormCompletion() {
+            const campos = document.querySelectorAll("input[required]");
+            let completo = Array.from(campos).every(c => c.value.trim() !== "");
+
+            const dinero = document.querySelector('input[name="dinero"]:checked');
+            const pago = document.querySelectorAll('input[name="pago_preferido"]:checked');
+
+            if (!dinero || pago.length === 0) completo = false;
+
+            document.getElementById("submitButton").disabled = !completo;
+        }
+
+        // -------------------- SELECCIÓN DE OPCIONES --------------------
+        function seleccionarDinero(chk) {
+            document.querySelectorAll('input[name="dinero"]').forEach(c => {
+                c.checked = c === chk;
+                c.closest('.option')?.classList.toggle('selected', c.checked);
+            });
             checkFormCompletion();
         }
 
-        function togglePaymentFields(checkboxes, seleccionados) {
+        function seleccionarPago(chk) {
+            const checkboxes = document.querySelectorAll('input[name="pago_preferido"]');
+            const seleccionados = Array.from(checkboxes).filter(c => c.checked);
+
+            if (seleccionados.length > 3) {
+                chk.checked = false;
+                Swal.fire("⚠️ Máximo 3 métodos", "", "warning");
+                return;
+            }
+
+            // Mostrar/ocultar campos relacionados
             const nequiBox = document.getElementById("nequi").parentElement;
             const binanceBox = document.getElementById("binance_de_Pay").parentElement;
 
@@ -270,157 +284,136 @@
             binanceBox.style.display = "none";
 
             checkboxes.forEach(cb => {
-                const option = cb.closest('.option');
-                option?.classList.toggle('selected', cb.checked);
+                cb.closest('.option')?.classList.toggle('selected', cb.checked);
             });
 
             seleccionados.forEach(cb => {
                 if (cb.value === "Nequi") nequiBox.style.display = "block";
                 if (cb.value === "Binance") binanceBox.style.display = "block";
             });
-        }
-
-        function seleccionarDinero(checkbox) {
-            const checkboxes = document.querySelectorAll('input[name="dinero"]');
-            checkboxes.forEach(cb => {
-                cb.checked = cb === checkbox;
-                cb.closest('.option')?.classList.toggle('selected', cb.checked);
-            });
 
             checkFormCompletion();
         }
 
-        // Timer
-        function iniciarCuentaRegresiva(duracion) {
-            const timerElement = document.getElementById("timerCountdown");
-            let tiempoRestante = duracion;
+        // -------------------- PASOS Y CUENTA REGRESIVA --------------------
+        function iniciarCuentaRegresiva(segundos) {
+            const timer = document.getElementById("timerCountdown");
+            let tiempo = segundos;
 
-            function actualizarTimer() {
-                const minutos = Math.floor(tiempoRestante / 60);
-                const segundos = tiempoRestante % 60;
-                timerElement.textContent = `⏳ ${minutos.toString().padStart(2, "0")}:${segundos.toString().padStart(2, "0")}`;
+            function actualizar() {
+                const min = Math.floor(tiempo / 60);
+                const seg = tiempo % 60;
 
-                if (tiempoRestante > 0) {
-                    tiempoRestante--;
-                    timeoutID = setTimeout(actualizarTimer, 1000);
+                timer.textContent = `⏳ Tiempo restante: ${min.toString().padStart(2, "0")}:${seg.toString().padStart(2, "0")}`;
+
+                if (tiempo > 0) {
+                    tiempo--;
+                    timeoutID = setTimeout(actualizar, 1000);
                 } else {
-                    timerElement.textContent = "⏰ Tiempo finalizado";
-                    Swal.fire({
-                        title: 'Tiempo agotado',
-                        text: 'El tiempo para realizar el pago ha expirado',
-                        icon: 'warning',
-                        confirmButtonText: 'Entendido'
-                    }).then(() => {
+                    timer.textContent = "⏰ Tiempo finalizado";
+                    Swal.fire("⏰ Tiempo agotado", "Debes volver a empezar", "warning").then(() => {
                         window.location.href = "index.html";
                     });
                 }
             }
 
-            actualizarTimer();
+            actualizar();
         }
 
-        // Step Navigation
         function pasarASiguientePaso() {
-            const plataformaSelect = document.getElementById("plataformaSelect");
-            const plataformaSeleccionada = plataformaSelect.value;
-            const tituloPago = document.getElementById("pagoMontoTitulo");
-
-            if (!plataformaSeleccionada) {
+            const plataforma = document.getElementById("plataformaSelect").value;
+            if (!plataforma) {
                 Swal.fire("⚠️ Selección necesaria", "Debes seleccionar una plataforma.", "warning");
                 return;
             }
 
-            setPaymentTitle(plataformaSeleccionada, tituloPago);
-            setRandomReference(plataformaSeleccionada);
+            const qrImg = document.getElementById("qr-img");
+            const tituloPago = document.getElementById("pagoMontoTitulo");
+            const labelOrderId = document.getElementById("labelOrderId");
+            const inputOrderId = document.getElementById("orderId");
 
-            document.getElementById("platformSelected").textContent = plataformaSeleccionada;
-            document.getElementById("qr-img").src = referenciasQR[plataformaSeleccionada].find(ref => ref.ref === referenciaActual).qr;
+            document.getElementById("platformSelected").textContent = plataforma;
+            document.getElementById("orderId").value = "";
+
+            if (plataforma === "Nequi") {
+                tituloPago.textContent = "Pago: $600.000 COP";
+                qrImg.src = "img/Nequiimga.png";
+                labelOrderId.textContent = "Referencia";
+                inputOrderId.placeholder = "Referencia Nequi";
+            } else if (plataforma === "Binance") {
+                tituloPago.textContent = "Pago: 150 USD";
+                qrImg.src = "img/BinanvceLQR.png";
+                labelOrderId.textContent = "ID de orden";
+                inputOrderId.placeholder = "ID Binance";
+            }
 
             document.getElementById("paso1").style.display = "none";
             document.getElementById("paso2").style.display = "block";
-
             iniciarCuentaRegresiva(1800);
         }
 
-        function setPaymentTitle(plataformaSeleccionada, tituloPago) {
-            if (plataformaSeleccionada === "Nequi") {
-                tituloPago.textContent = "Pago: $600.000 COP";
-            } else if (plataformaSeleccionada === "Binance") {
-                tituloPago.textContent = "Pago: 150 USD";
-            }
-        }
+        function confirmarPago() {
+            const orderIdInput = document.getElementById("orderId");
+            const orderId = orderIdInput ? orderIdInput.value.trim() : null;
+            const plataforma = document.getElementById("platformSelected").textContent;
+            let valid = false;
 
-        function setRandomReference(plataformaSeleccionada) {
-            const opciones = referenciasQR[plataformaSeleccionada];
-            const aleatoria = opciones[Math.floor(Math.random() * opciones.length)];
-            referenciaActual = aleatoria.ref;
-        }
+            if (plataforma === "Nequi") valid = /^[A-Za-z]?\d{6,20}$/.test(orderId);
+            if (plataforma === "Binance") valid = /^\d{10,19}$/.test(orderId);
 
-        function finalizarProceso() {
-            const input = document.getElementById("facturaPago");
-            const archivo = input.files[0];
-
-            if (!archivo) {
-                Swal.fire("❌ Faltan datos", "Debes subir el comprobante de pago.", "warning");
+            if (!valid) {
+                Swal.fire(
+                    "⚠️ ID de orden inválido",
+                    plataforma === "Nequi"
+                        ? "La referencia Nequi debe tener una letra opcional seguida de 6 a 20 dígitos numéricos. Ej: M17974073"
+                        : "El ID de Binance debe tener entre 10 y 19 dígitos numéricos.",
+                    "warning"
+                );
                 return;
             }
 
-            convertFileToBase64(archivo);
-        }
-
-        function confirmarPago() {
-            const refUserValue = document.getElementById("refUser").value.trim();
-
-            if (refUserValue !== referenciaActual) {
-                Swal.fire("❌ Error", "La referencia de pago no coincide con la esperada.", "error");
+            const orderIDHidden = document.getElementById("orderIDHidden");
+            if (orderIDHidden) {
+                orderIDHidden.value = orderId;
+            } else {
+                console.error("Elemento con ID 'orderIDHidden' no encontrado.");
                 return;
             }
 
             clearTimeout(timeoutID);
-            Swal.fire("✅ Éxito", "El pago ha sido confirmado correctamente.", "success").then(() => {
-                document.getElementById("paso2").style.display = "none";
-                document.getElementById("paso3").style.display = "block";
-            });
-        }
 
-        function confirmarOrden() {
-            const orderId = document.getElementById("orderId").value.trim();
-            const orderIdPattern = /^\d{10,19}$/;
+            const titulo = plataforma === "Nequi" ? "✅ Referencia" : "✅ ID de Orden";
+            const texto = plataforma === "Nequi"
+                ? `<strong>Referencia:</strong> ${orderId}`
+                : `<strong>ID de Orden:</strong> ${orderId}`;
 
-            if (!orderIdPattern.test(orderId)) {
-                Swal.fire("⚠️ ID de Orden inválido", "El ID de orden debe ser un número de entre 10 y 19 dígitos.", "warning");
-                return;
-            }
-
-            Swal.fire("✅ Orden Confirmada", `Tu ID de orden es: ${orderId}`, "success").then(() => {
+            Swal.fire({
+                title: titulo,
+                html: texto,
+                icon: "success"
+            }).then(() => {
                 enviarDatosAlServidor(orderId);
-                document.getElementById("paso3").style.display = "none";
+                document.getElementById("paso2").style.display = "none";
             });
         }
 
 
+        // -------------------- ENVÍO DE DATOS --------------------
         async function UploadFile() {
             const form = document.getElementById("uploadForm");
-
             const nombres = document.getElementById("nombres").value.trim();
-            const palabras = nombres.split(" ").filter(p => p !== "");
             const whatsApp = document.getElementById("whatsApp").value.trim();
             const pais = document.getElementById("pais").value.trim();
             const invitar = document.getElementById("invitar").value.trim();
-            const palabrasInvitar = invitar.split(" ").filter(p => p !== "");
             const binance = document.getElementById("binance_de_Pay").value.trim();
             const nequi = document.getElementById("nequi").value.trim();
 
+            const palabrasNombre = nombres.split(" ").filter(Boolean);
+            const palabrasInvitar = invitar.split(" ").filter(Boolean);
             const dineroSeleccionado = document.querySelector('input[name="dinero"]:checked');
             const pagosSeleccionados = Array.from(document.querySelectorAll('input[name="pago_preferido"]:checked'));
 
-            if (!validateFormFields(palabras, palabrasInvitar, whatsApp, pais, invitar, dineroSeleccionado, pagosSeleccionados, nequi, binance)) {
-                return;
-            }
-
-            const metodoTexto = pagosSeleccionados.map(p => p.value).join(', ');
-            const nequiHtml = nequi ? `<p><strong>Nequi:</strong> ${nequi}</p>` : '';
-            const binanceHtml = binance ? `<p><strong>Binance:</strong> ${binance}</p>` : '';
+            if (!validateFormFields(palabrasNombre, palabrasInvitar, whatsApp, pais, invitar, dineroSeleccionado, pagosSeleccionados, nequi, binance)) return;
 
             const confirmacion = await Swal.fire({
                 icon: 'question',
@@ -430,9 +423,9 @@
             <p><strong>WhatsApp:</strong> ${whatsApp}</p>
             <p><strong>País:</strong> ${pais}</p>
             <p><strong>Invita a:</strong> ${invitar}</p>
-            <p><strong>Método(s) de pago:</strong> ${metodoTexto}</p>
-            ${nequiHtml}
-            ${binanceHtml}
+            <p><strong>Método(s) de pago:</strong> ${pagosSeleccionados.map(p => p.value).join(', ')}</p>
+            ${nequi ? `<p><strong>Nequi:</strong> ${nequi}</p>` : ''}
+            ${binance ? `<p><strong>Binance:</strong> ${binance}</p>` : ''}
         `,
                 showCancelButton: true,
                 confirmButtonText: 'Sí, seguramente',
@@ -443,56 +436,16 @@
 
             document.getElementById("paso1").style.display = "block";
             document.getElementById("paso2").style.display = "none";
-            document.getElementById("paso3").style.display = "none";
-        }
-
-        function validateFormFields(palabras, palabrasInvitar, whatsApp, pais, invitar, dineroSeleccionado, pagosSeleccionados, nequi, binance) {
-            if (palabras.length < 3 || palabras.length > 4) {
-                Swal.fire("⚠️ Nombre inválido", "El campo nombres debe tener entre 3 y 4 palabras.", "warning");
-                return false;
-            }
-
-            if (palabrasInvitar.length < 3 || palabrasInvitar.length > 4) {
-                Swal.fire("⚠️ Invitación inválida", "El campo 'invitar' debe tener entre 3 y 4 palabras.", "warning");
-                return false;
-            }
-
-            if (!whatsApp || !pais || !invitar) {
-                Swal.fire("⚠️ Faltan datos", "Completa todos los campos obligatorios.", "warning");
-                return false;
-            }
-
-            if (!dineroSeleccionado || pagosSeleccionados.length === 0) {
-                Swal.fire("⚠️ Selección necesaria", "Marca si tienes dinero y tu método de pago.", "warning");
-                return false;
-            }
-
-            for (let metodo of pagosSeleccionados) {
-                const value = metodo.value;
-                if (value === "Nequi" && !nequi) {
-                    Swal.fire("⚠️ Requiere Nequi", "Debes ingresar tu número de Nequi.", "warning");
-                    return false;
-                }
-                if (value === "Binance" && !binance) {
-                    Swal.fire("⚠️ Requiere Binance", "Debes ingresar tu ID de Binance.", "warning");
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         async function enviarDatosAlServidor(orderId) {
             const form = document.getElementById("uploadForm");
             const formData = new FormData(form);
 
-
-            // Add orderId to formData
             formData.append('orderId', orderId);
 
             const nombres = document.getElementById("nombres").value.trim();
-            const whatsApp = document.getElementById("whatsApp").value.trim();
-            const whatsAppLimpio = whatsApp.replace(/[^+\d]/g, '');
+            const whatsAppLimpio = document.getElementById("whatsApp").value.trim().replace(/[^+\d]/g, '');
             const pais = document.getElementById("pais").value.trim();
             const invitar = document.getElementById("invitar").value.trim();
             const binance = document.getElementById("binance_de_Pay").value.trim();
@@ -500,11 +453,7 @@
             const dineroSeleccionado = document.querySelector('input[name="dinero"]:checked');
             const pagosSeleccionados = Array.from(document.querySelectorAll('input[name="pago_preferido"]:checked'));
 
-            Swal.fire({
-                title: 'Enviando...',
-                didOpen: () => Swal.showLoading(),
-                allowOutsideClick: false
-            });
+            Swal.fire({ title: 'Enviando...', didOpen: () => Swal.showLoading(), allowOutsideClick: false });
 
             try {
                 const response = await fetch(form.action, {
@@ -525,38 +474,42 @@
         }
 
         function showSuccessMessage(nombres, whatsAppLimpio, pais, invitar, binance, nequiValue, pagosSeleccionados, dineroSeleccionado, orderId) {
+            const plataforma = document.getElementById("platformSelected").textContent;
+            const dinamico = plataforma === "Nequi"
+                ? `<strong>Referencia:</strong> ${orderId}`
+                : `<strong>ID de Orden:</strong> ${orderId}`;
+
             Swal.fire({
-                title: "✅ Datos enviados correctamente",
+                title: "✅ Información enviada",
                 html: `
-            <p><strong>Nombre:</strong> ${nombres}</p>
-            <p><strong>WhatsApp:</strong> ${whatsAppLimpio}</p>
-            <p><strong>País:</strong> ${pais}</p>
-            <p><strong>Invita a:</strong> ${invitar}</p>
-            <p><strong>Binance de Pay:</strong> ${binance}</p>
-            ${nequiValue ? `<p><strong>Nequi:</strong> ${nequiValue}</p>` : ''}
-            <p><strong>Método(s) de pago seleccionado(s):</strong> ${pagosSeleccionados.map(p => p.value).join(', ')}</p>
-            <p><strong>Dinero:</strong> ${dineroSeleccionado?.value || 'N/A'}</p>
-            <p><strong>ID de Orden:</strong> ${orderId}</p>
-            <br>
-            <button onclick="window.open('https://chat.whatsapp.com/LYLFjBIsoWs2S9LgmPR3sv?mode=ac_t', '_blank'); Swal.close();"
-                style="background-color: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 16px; cursor: pointer;">
-                👉 Únete al Grupo WhatsApp 👈
-            </button>
-        `,
+                    <p><strong>Nombre:</strong> ${nombres}</p>
+                    <p><strong>WhatsApp:</strong> ${whatsAppLimpio}</p>
+                    <p><strong>País:</strong> ${pais}</p>
+                    <p><strong>Invita a:</strong> ${invitar}</p>
+                    <p><strong>Binance de Pay:</strong> ${binance}</p>
+                    ${nequiValue ? `<p><strong>Nequi:</strong> ${nequiValue}</p>` : ''}
+                    <p><strong>Método(s) de pago:</strong> ${pagosSeleccionados.map(p => p.value).join(', ')}</p>
+                    <p><strong>Dinero:</strong> ${dineroSeleccionado?.value || 'N/A'}</p>
+                    <p>${dinamico}</p>
+                    <br>
+                    <button onclick="window.open('https://chat.whatsapp.com/LYLFjBIsoWs2S9LgmPR3sv?mode=ac_t', '_blank'); Swal.close();"
+                        style="background-color: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 16px; cursor: pointer;">
+                        👉 Únete al Grupo WhatsApp 👈
+                    </button>
+                `,
                 icon: "success",
                 showConfirmButton: false,
                 timer: 60000,
-
-                // 🖼️ Fondo personalizado solo para el modal
                 background: 'url("img/Ciclovida.png") center center / cover no-repeat',
-                backdrop: 'rgba(0, 0, 0, 0.4)', // fondo detrás del modal
-                color: '#000' // color de texto dentro del modal
+                backdrop: 'rgba(0, 0, 0, 0.4)',
+                color: '#000'
             });
 
             setTimeout(() => {
                 window.location.href = "index.html";
             }, 15000);
         }
+
 
         function resetForm(form) {
             form.reset();
