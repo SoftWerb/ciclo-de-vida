@@ -47,6 +47,7 @@ p {
 .logo a img {
     width: 344px;
     height: auto;
+    margin-top: 85px;
 }
 .slider-main {
     height: 100svh;
