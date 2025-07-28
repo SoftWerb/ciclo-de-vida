@@ -718,3 +718,19 @@ form .button input:hover {
     transform: translateY(0px);
   }
 }
+
+.custom-select {
+  position: relative;
+  display: inline-flex;
+}
+
+.platform-image {
+  display: none;
+  margin-top: 10px;
+}
+
+.platform-image img {
+  width: 56px;
+  /* Adjust size as needed */
+  height: auto;
+}
