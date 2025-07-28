@@ -106,12 +106,14 @@
     <div id="paso1">
         <h2>¿Tienes dinero ahora?</h2>
         <label for="plataformaSelect">Selecciona tu plataforma:</label>
-        <select id="plataformaSelect" required>
-            <option value="" disabled selected>Selecciona una</option>
-            <option value="Binance">Binance</option>
-            <option value="Nequi">Nequi</option>
-        </select>
-        <br><br>
+        <div class="custom-select">
+            <select id="plataformaSelect" required>
+                <option value="" disabled selected>Selecciona una</option>
+                <option value="Binance">Binance</option>
+                <option value="Nequi">Nequi</option>
+            </select>
+            <div id="platformImage" class="platform-image"></div>
+        </div>
         <button onclick="pasarASiguientePaso()">Siguiente</button>
     </div>
 
@@ -397,45 +399,37 @@
             });
         }
 
+        function getTrimmedValue(elementId) {
+            return document.getElementById(elementId).value.trim();
+        }
+
+        function splitAndFilter(value) {
+            return value.split(" ").filter(Boolean);
+        }
+
+        function toggleDisplay(elementId, displayStyle) {
+            document.getElementById(elementId).style.display = displayStyle;
+        }
 
         // -------------------- ENVÍO DE DATOS --------------------
         async function UploadFile() {
             const form = document.getElementById("uploadForm");
-            const nombres = document.getElementById("nombres").value.trim();
-            const whatsApp = document.getElementById("whatsApp").value.trim();
-            const pais = document.getElementById("pais").value.trim();
-            const invitar = document.getElementById("invitar").value.trim();
-            const binance = document.getElementById("binance_de_Pay").value.trim();
-            const nequi = document.getElementById("nequi").value.trim();
+            const nombres = getTrimmedValue("nombres");
+            const whatsApp = getTrimmedValue("whatsApp");
+            const pais = getTrimmedValue("pais");
+            const invitar = getTrimmedValue("invitar");
+            const binance = getTrimmedValue("binance_de_Pay");
+            const nequi = getTrimmedValue("nequi");
 
-            const palabrasNombre = nombres.split(" ").filter(Boolean);
-            const palabrasInvitar = invitar.split(" ").filter(Boolean);
+            const palabrasNombre = splitAndFilter(nombres);
+            const palabrasInvitar = splitAndFilter(invitar);
             const dineroSeleccionado = document.querySelector('input[name="dinero"]:checked');
             const pagosSeleccionados = Array.from(document.querySelectorAll('input[name="pago_preferido"]:checked'));
 
             if (!validateFormFields(palabrasNombre, palabrasInvitar, whatsApp, pais, invitar, dineroSeleccionado, pagosSeleccionados, nequi, binance)) return;
 
-            const confirmacion = await Swal.fire({
-                icon: 'question',
-                title: '¿Deseas enviar esta información?',
-                html: `
-            <p><strong>Nombre:</strong> ${nombres}</p>
-            <p><strong>WhatsApp:</strong> ${whatsApp}</p>
-            <p><strong>País:</strong> ${pais}</p>
-            <p><strong>Invita a:</strong> ${invitar}</p>
-            <p><strong>Método(s) de pago:</strong> ${pagosSeleccionados.map(p => p.value).join(', ')}</p>
-            ${nequi ? `<p><strong>Nequi:</strong> ${nequi}</p>` : ''}
-            ${binance ? `<p><strong>Binance:</strong> ${binance}</p>` : ''}
-        `,
-                showCancelButton: true,
-                confirmButtonText: 'Sí, seguramente',
-                cancelButtonText: 'Cancelar'
-            });
-
-            if (!confirmacion.isConfirmed) return;
-
-            document.getElementById("paso1").style.display = "block";
-            document.getElementById("paso2").style.display = "none";
+            toggleDisplay("paso1", "block");
+            toggleDisplay("paso2", "none");
         }
 
         async function enviarDatosAlServidor(orderId) {
@@ -499,7 +493,7 @@
                 `,
                 icon: "success",
                 showConfirmButton: false,
-                timer: 180000,
+                timer: 60000,
                 background: 'url("img/Ciclovida.png") center center / cover no-repeat',
                 backdrop: 'rgba(0, 0, 0, 0.4)',
                 color: '#000'
@@ -510,7 +504,6 @@
             }, 15000);
         }
 
-
         function resetForm(form) {
             form.reset();
             document.getElementById("submitButton").disabled = true;
@@ -518,6 +511,23 @@
             document.getElementById("nequi").parentElement.style.display = "none";
             document.getElementById("binance_de_Pay").parentElement.style.display = "none";
         }
+    </script>
+
+    <script>
+        document.getElementById('plataformaSelect').addEventListener('change', function() {
+            const platformImage = document.getElementById('platformImage');
+            const selectedValue = this.value;
+
+            if (selectedValue === 'Binance') {
+                platformImage.innerHTML = '<img src="img/binance-icon-logo-png_seeklogo-598330.png" alt="Binance">';
+                platformImage.style.display = 'block';
+            } else if (selectedValue === 'Nequi') {
+                platformImage.innerHTML = '<img src="img/images-Photoroom.png" alt="Nequi">';
+                platformImage.style.display = 'block';
+            } else {
+                platformImage.style.display = 'none';
+            }
+        });
     </script>
 
     <script src="Js/script.js"></script>
