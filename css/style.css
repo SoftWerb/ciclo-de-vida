@@ -1,29 +1,41 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Chelsea+Market&family=Lilita+One&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 html {
     overflow-x: hidden;
 }
+
 img {
     user-select: none;
 }
+/* ... existing code ... */
+.logos {
+  width: 91px; /* Adjust the size as needed */
+  height: auto;
+}
+/* ... existing code ... */
 body {
     overflow-x: hidden;
     font-family: "Montserrat", sans-serif;
     height: 100svh;
     position: relative;
 }
+
 a {
     display: inline-block;
 }
+
 .custom-swal {
     border-radius: 10px 100px / 120px;
 
 }
+
 .heading-style-2 {
     color: #fff;
     font-size: 50px;
@@ -31,6 +43,7 @@ a {
     line-height: 50px;
     margin-bottom: 40px;
 }
+
 p {
     color: #000000;
     font-family: Montserrat;
@@ -40,15 +53,17 @@ p {
     line-height: 35px;
     margin-bottom: 28px;
 }
+
 /* logo */
-.logo a {   
+.logo a {
     margin-bottom: -15px;
 }
+
 .logo a img {
     width: 344px;
     height: auto;
-    margin-top: 85px;
 }
+
 .slider-main {
     height: 100svh;
     background: radial-gradient(50% 50% at 50% 50%, #c7f6d0 0%, #7cb686 92.19%);
@@ -59,6 +74,7 @@ p {
     position: relative;
     z-index: 1;
 }
+
 #backgrounds {
     position: absolute;
     width: 100%;
@@ -66,6 +82,7 @@ p {
     top: 0;
     z-index: -1;
 }
+
 .background {
     position: absolute;
     top: 0;
@@ -75,6 +92,7 @@ p {
     opacity: 0;
     transition: opacity 2s ease-in-out;
 }
+
 .container {
     position: relative;
     left: calc(50% - (1140px / 2));
@@ -85,6 +103,7 @@ p {
 
 
 }
+
 button {
     padding: 10px 15px;
     background: linear-gradient(135deg, #03e2ff, #0313f8);
@@ -102,6 +121,7 @@ button {
     font-size: 25px;
     font-style: normal;
 }
+
 button:hover {
     background: linear-gradient(135deg, #f00808, #0307f8);
 }
@@ -112,23 +132,28 @@ button.disabled {
     width: 90%;
     height: 2.2em;
 }
+
 button.disabled:hover {
     background: linear-gradient(135deg, #5f0303, #f80505);
 
 }
+
+
 /* content */
 .slider-content-wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 56%;
+    height: 49%;
 }
+
 /* social media */
 .social-icons {
     display: flex;
     align-items: center;
     gap: 16px;
 }
+
 .social-icons a {
     border: 2px solid #fff;
     border-radius: 50%;
@@ -139,10 +164,12 @@ button.disabled:hover {
     justify-content: center;
     align-items: center;
 }
+
 .social-icons img {
     width: 22px;
     height: 22px;
 }
+
 /* images */
 .slider-images>img.next {
     opacity: 1;
@@ -152,6 +179,7 @@ button.disabled:hover {
     top: 10%;
     transform: translate(-50%, -50%) scale(0.3);
 }
+
 .slider-images>img.active {
     opacity: 1;
     transform: scale(1);
@@ -162,6 +190,7 @@ button.disabled:hover {
     transform: translateY(-50%);
     z-index: 1;
 }
+
 .slider-images>img.previous {
     opacity: 1;
     transition: 2s;
@@ -169,6 +198,7 @@ button.disabled:hover {
     left: 95%;
     top: 90%;
 }
+
 .slider-images>img.inactive {
     opacity: 0;
     transition: 2s;
@@ -177,12 +207,14 @@ button.disabled:hover {
     top: 100%;
     transform: translate(10%, 10%) scale(0.3);
 }
+
 .slider-images {
     position: relative;
     width: 50%;
     height: 100%;
     top: 0;
 }
+
 .slider-images>img {
     position: absolute;
     top: 0%;
@@ -196,163 +228,195 @@ button.disabled:hover {
     height: 100%;
     min-height: 320px;
 }
+
 /* ========================= media query ============================== */
 @media screen and (max-width: 1199px) {
     .logo a img {
         width: 230px;
     }
+
     .heading-style-2 {
         font-size: 40px;
         line-height: 45px;
         margin-bottom: 30px;
     }
+
     p {
         font-size: 17px;
         line-height: 28px;
         margin-bottom: 22px;
     }
+
     .container {
         left: calc(50% - (920px / 2));
         padding-block: 80px;
         max-width: 475px;
     }
+
     .slider-images>img {
         width: 453px;
         height: auto;
         aspect-ratio: 0/1.3;
     }
 }
+
 @media screen and (max-width: 991px) {
     .logo a img {
         width: 210px;
     }
+
     .heading-style-2 {
         font-size: 35px;
         line-height: 43px;
         margin-bottom: 22px;
     }
+
     p {
         font-size: 16px;
         line-height: 26px;
         margin-bottom: 18px;
     }
+
     .container {
         left: calc(50% - (720px / 2));
         padding-block: 70px;
         max-width: 405px;
     }
+
     .slider-images {
         width: 45%;
     }
+
     .slider-images>img {
         width: 340px;
         aspect-ratio: 0/1.3;
     }
 }
+
 @media screen and (max-width: 767px) {
     .logo a img {
         width: 231px;
     }
+
     .logo a {
         margin-bottom: 20px;
     }
+
     .slider-main {
         flex-direction: column;
         min-height: 900px;
     }
+
     .social-icons a {
         width: 35px;
         height: 35px;
     }
+
     .social-icons img {
         width: 16px;
         height: 16px;
     }
+
     .container {
         position: unset;
         padding-block: 70px;
         max-width: 540px;
         width: 100%;
     }
+
     .slider-images {
         width: 90%;
     }
+
     .slider-images>img {
         height: 380px;
         aspect-ratio: 0/1.3;
         width: auto;
     }
+
     .slider-images>img.active {
         top: 45%;
         left: 20%;
     }
 }
+
 @media screen and (max-width: 575px) {
     .logo a img {
         width: 202px;
     }
+
     .logo a {
         margin-bottom: 18px;
     }
+
     .heading-style-2 {
         font-size: 30px;
         line-height: 40px;
         margin-bottom: 20px;
     }
+
     p {
         font-size: 15px;
         line-height: 24px;
         margin-bottom: 16px;
     }
+
     .social-icons a {
         width: 32px;
         height: 32px;
     }
+
     .social-icons img {
         width: 15px;
         height: 15px;
     }
+
     .container {
         padding: 50px 20px 50px 20px;
         max-width: 100%;
     }
+
     .slider-images>img {
         height: 100px;
     }
+
     .slider-images>img.active {
         top: 50%;
         left: 5%;
     }
+
     .slider-images>img.previous {
         top: 100%;
     }
 }
+
 .countdown {
     display: flex;
-    flex-wrap: wrap;
     gap: 10px;
-    justify-content: flex-start;
     margin-bottom: 20px;
     flex-wrap: wrap;
     margin-top: 10px;
+    justify-content: flex-start;
 }
+
 .time-box {
     padding: 15px 20px;
     flex: 1 1 calc(25% - 7px);
-    max-width: 100px;
+    max-width: 83px;
     text-align: center;
     min-width: 60px;
-    max-width: 100px;
     transition: transform 0.3s;
     font-family: "Lilita One", serif;
     font-weight: 400;
-    font-size: 25px;
+    font-size: 22px;
     font-style: normal;
 }
+
 h1,
 .subtext {
     padding: 0 10px;
 }
+
 .time-box span:first-child {
     display: block;
     font-family: "Chelsea Market", serif;
@@ -361,6 +425,7 @@ h1,
     font-size: 34px;
     color: #000000;
 }
+
 .subscribe {
     display: flex;
     justify-content: center;
@@ -368,6 +433,7 @@ h1,
     margin-top: 30px;
     flex-wrap: wrap;
 }
+
 .subscribe input {
     padding: 12px;
     border: 2px solid #ddd;
@@ -379,14 +445,17 @@ h1,
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: 0.3s;
 }
+
 .subscribe input:focus {
     border-color: #00c853;
     background-color: #e9ffe8;
 }
+
 .subscribe input::placeholder {
     color: #888;
     font-style: italic;
 }
+
 h2 {
     margin-top: 20px;
 }
@@ -404,8 +473,8 @@ dialog {
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-top: 1px solid rgba(255, 255, 255, 0.75);
     border-left: 1px solid rgba(255, 255, 255, 0.75);
-    box-shadow: 0 25px 45px rgba(0,0,0,0,0.5);
-    box-shadow: 0 15px 50px rgb(0,0,0,0.1);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0, 0.5);
+    box-shadow: 0 15px 50px rgb(0, 0, 0, 0.1);
     overflow-x: hidden;
     /* Evitar desplazamiento horizontal */
     overflow-y: visible;
@@ -415,23 +484,28 @@ dialog {
 dialog::backdrop {
     background: rgb(18 57 229 / 48%);
 }
+
 dialog button:hover {
     box-shadow: 8px 8px 0 #111111;
 }
+
 /* Incluye tu código existente */
 @media (max-width: 768px) {
+
     dialog h3,
     ul li {
         font-size: 1rem;
         display: flex;
         justify-content: center;
     }
+
     .modal-buttons .confirm {
         font-size: 1rem;
         display: flex;
         justify-content: center;
 
     }
+
     .modal-buttons .cancel {
         font-size: 1rem;
         display: flex;
@@ -439,6 +513,7 @@ dialog button:hover {
     }
 
 }
+
 /* Galaxy Z Fold 5 (pantalla externa) */
 @media screen and (max-width: 904px) {
     dialog {
@@ -451,16 +526,19 @@ dialog button:hover {
         font-size: 1rem;
     }
 }
-a{
+
+a {
     text-decoration: none;
 }
-.wrapper{
-    padding: 0 48px 0 0;
+
+.wrapper {
+    padding: 0 0 0 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
-.services{
+
+.services {
     width: 557px;
     gap: 20px;
     height: auto;
@@ -474,7 +552,21 @@ a{
     margin-bottom: auto;
     margin-top: auto;
 }
-.single-img{
+
+.services .admin {
+    color: #ffffff;
+    font-family: "Lilita One", serif;
+    font-weight: 400;
+    font-size: 25px;
+    font-style: normal;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+}
+
+.single-img {
     border-radius: 28px;
     display: flex;
     flex-direction: column-reverse;
@@ -482,28 +574,32 @@ a{
     width: 325px;
     height: 450px;
     overflow: hidden;
-    box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
     transform: translate(0, 0);
     transition: .3s;
-    margin-bottom: 16%;
+    margin-bottom: 5%;
 }
-.single-img:hover{
+
+.single-img:hover {
     transform: translate(0, -9px);
 }
-.img-one{
+
+.img-one {
     background-image: url(../img/1-Photoroom.png);
     background-size: cover;
     width: 263px;
     height: 265px;
 }
-.img-two{
+
+.img-two {
     background-image: url(../img/2-Photoroom.png);
     background-size: cover;
     width: 263px;
     height: 265px;
 }
-.img-text{
-    background: linear-gradient(to top,rgba(12, 201, 214, 0.9),rgba(255,255,255,0));
+
+.img-text {
+    background: linear-gradient(to top, rgba(12, 201, 214, 0.9), rgba(255, 255, 255, 0));
     padding: 0 10px 5px 10px;
     width: 100%;
     height: auto;
@@ -515,15 +611,18 @@ a{
     text-align: center;
     color: #000000;
 }
-.img-text h4{
+
+.img-text h4 {
     line-height: 15px;
     padding: 0;
     margin: 16px 0;
     font-family: 'Alfa Slab One', cursive;
     font-size: 25px;
 }
-.services button{
-    background: linear-gradient(to bottom, #1ece06, #026e0b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+.services button {
+    background: linear-gradient(to bottom, #1ece06, #026e0b);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     color: #fff;
     padding: 10px 35px;
     border: none;
@@ -532,35 +631,44 @@ a{
     display: inline-block;
     margin-bottom: 10px;
 }
-.services button:hover{
-    background: linear-gradient(to bottom, #0613c7, #08ddcb); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+.services button:hover {
+    background: linear-gradient(to bottom, #0613c7, #08ddcb);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
 .services button.disabled {
     background: linear-gradient(135deg, #7e7e7e, #383838);
     cursor: not-allowed;
     width: 90%;
     height: 2.2em;
 }
+
 .services button.disabled:hover {
     background: linear-gradient(135deg, #5f0303, #f80505);
 
 }
-.single-img:hover .img-text{
+
+.single-img:hover .img-text {
     transform: translate(0, 0);
 }
-@media (max-width: 991px){
-    .wrapper{
+
+@media (max-width: 991px) {
+    .wrapper {
         padding: 0;
     }
-    .services{
+
+    .services {
         width: 100%;
         display: flex;
         flex-direction: column;
     }
-    a{
-        margin-bottom: 35px;
+
+    a {
+        margin-bottom: -42px;
     }
 }
+
 input {
     padding: 10px 15px;
     background: linear-gradient(135deg, #5f0303, #f80505);
@@ -569,7 +677,6 @@ input {
     border: none;
     border-radius: 40px;
     cursor: pointer;
-    width: 107%;
     font-family: "Lilita One", serif;
     font-weight: 400;
     font-size: 25px;
