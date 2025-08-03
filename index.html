@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <title>CicloVida</title>
   <!-- Imagen que se mostrará como miniatura del link -->
-  <meta property="og:image" content="https://softwerb.github.io/www.ciclodevida.com/img/Ciclonormal.png" />
+  <meta property="og:image" content="https://softwerb.github.io/www.ciclodevida.com//img/Ciclonormal.png" />
   <meta property="og:title" content="CicloVida" />
   <meta property="og:description" content="Proyecto sobre Ciclovida saludable y movilidad" />
   <meta property="og:url" content="https://softwerb.github.io/www.ciclodevida.com/" />
@@ -34,6 +34,25 @@
             onclick="window.modal1.showModal();">Entre</button>
 
           <!-- Cuenta regresiva -->
+          <div class="countdown">
+            <img class="logos" src="img/images-Photoroom.png" alt="Nequi">
+            <div class="time-box">
+              <span id="days">00</span>
+              <span>Días</span>
+            </div>
+            <div class="time-box">
+              <span id="hours">00</span>
+              <span>Horas</span>
+            </div>
+            <div class="time-box">
+              <span id="minutes">00</span>
+              <span>Minutos</span>
+            </div>
+            <div class="time-box">
+              <span id="seconds">00</span>
+              <span>Segundos</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -52,32 +71,30 @@
 
 
   <dialog id="modal1" class="modal1">
-    <div class="wrapper">
-      <div class="services">
-        <a>
-          <span class="single-img img-one">
-            <span class="img-text">
-              <button class="apceta" type="submit" id="openModalButton"
-                onclick="window.location.href='proy.html';">Excel ahora</button>
-              <h2 id="message" style="display: none; color: white;">A partir del próximo lunes,
-                empezaremos a usar Excel para llevar el registro de datos</h2>
-            </span>
-          </span>
-        </a>
-        <a>
-          <span class="single-img img-two">
-            <span class="img-text">
-              <button class="apceta" type="submit" id="openModalButton1"
-                onclick="window.location.href='main.html';">Excel ahora</button>
-              <h2 id="message" style="display: none; color: white;">A partir del próximo lunes,
-                empezaremos a usar Excel para llevar el registro de datos</h2>
-            </span>
-          </span>
-        </a>
+  <div class="wrapper">
+    <div class="services">
+      <div class="single-img img-one">
+        <div class="img-text">
+          <button class="apceta" id="btn-one">Excel ahora</button>
+          <h2 id="message-one" style="display: none; color: white;">
+            A partir del próximo lunes, empezaremos a usar Excel para llevar el registro de datos
+          </h2>
+        </div>
       </div>
-      <input type="button" value="Cancelar" onclick="window.location.href='index.html';">
+
+      <div class="single-img img-two">
+        <div class="img-text">
+          <button class="apceta" id="btn-two">Excel ahora</button>
+          <h2 id="message-two" style="display: none; color: white;">
+            A partir del próximo lunes, empezaremos a usar Excel para llevar el registro de datos
+          </h2>
+        </div>
+      </div>
     </div>
-  </dialog>
+    <input type="button" value="Cancelar" onclick="window.location.href='index.html';">
+  </div>
+</dialog>
+
 
 
 </body>
