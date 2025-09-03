@@ -5,7 +5,7 @@ const messageTwo = document.getElementById("message-two");
 const submitBtn = document.getElementById("submitBtn");
 const form = document.getElementById("registroForm");
 
-const launchDate = new Date("2025-08-31T23:30:00").getTime();
+const launchDate = new Date("2025-09-20T23:30:00").getTime();
 const timer = setInterval(countdown, 1000);
 
 // Temporizador
@@ -100,6 +100,7 @@ form.addEventListener("submit", (e) => {
 
     form.reset();
 });
+
 
 
 
