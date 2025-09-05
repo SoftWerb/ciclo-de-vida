@@ -2,10 +2,15 @@ const btnOne = document.getElementById("btn-one");
 const btnTwo = document.getElementById("btn-two");
 const messageOne = document.getElementById("message-one");
 const messageTwo = document.getElementById("message-two");
-const submitBtn = document.getElementById("submitBtn");
-const form = document.getElementById("registroForm");
 
-const launchDate = new Date("2025-09-21T23:30:00Z").getTime();
+// --- Bloqueamos btnTwo desde el inicio ---
+btnTwo.disabled = true;
+btnTwo.innerText = "Registro cerrado";
+messageTwo.style.display = "block";
+btnTwo.classList.add("disabled");
+
+// Fecha límite
+const launchDate = new Date("2025-09-30T23:30:00Z").getTime(); // OJO: septiembre solo tiene 30 días
 const timer = setInterval(countdown, 1000);
 
 // Temporizador
@@ -16,14 +21,13 @@ function countdown() {
     if (timeLeft <= 0) {
         clearInterval(timer);
         document.querySelector(".countdown").style.display = "none";
-        disableButtons();
-        disableForm();
+        disableBtnOne();
     }
 
     updateCountdown(timeLeft);
 }
 
-// Mostrar el tiempo en pantalla
+// Mostrar tiempo
 function updateCountdown(timeLeft) {
     const seconds = Math.floor((timeLeft / 1000) % 60);
     const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
@@ -40,16 +44,11 @@ function pad(n) {
     return n < 10 ? "0" + n : n;
 }
 
-// Bloqueo de botones
-function disableButtons() {
-    [btnOne, btnTwo].forEach(btn => {
-        btn.disabled = true;
-        btn.innerText = "Registro cerrado";
-        btn.classList.add("disabled");
-    });
-
+// Bloquear solo btnOne cuando se acabe el tiempo
+function disableBtnOne() {
+    btnOne.disabled = true;
+    btnOne.innerText = "Registro cerrado";
     messageOne.style.display = "block";
-    messageTwo.style.display = "block";
 
     Swal.fire({
         icon: "error",
@@ -59,50 +58,9 @@ function disableButtons() {
     });
 }
 
-// Bloqueo del formulario
-function disableForm() {
-    form.querySelectorAll("input, button").forEach(el => {
-        el.disabled = true;
-    });
-}
-
-// Evento botón uno
+// Evento botón uno (funciona solo antes del cierre)
 btnOne.addEventListener("click", () => {
     if (!btnOne.disabled) {
         window.location.href = "proy.html";
     }
 });
-
-// Evento botón dos
-btnTwo.addEventListener("click", () => {
-    if (!btnTwo.disabled) {
-        window.location.href = "main.html";
-    }
-});
-
-// Envío del formulario
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById("nombre").value.trim();
-    const email = document.getElementById("email").value.trim();
-
-    if (nombre === "" || email === "") {
-        Swal.fire("Error", "Por favor completa todos los campos", "warning");
-        return;
-    }
-
-    Swal.fire({
-        icon: "success",
-        title: "Registro exitoso",
-        text: `Gracias por inscribirte, ${nombre}!`,
-        confirmButtonText: "OK"
-    });
-
-    form.reset();
-});
-
-
-
-
-
-
