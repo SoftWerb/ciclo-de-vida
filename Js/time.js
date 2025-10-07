@@ -42,20 +42,6 @@ function pad(n) {
     return n < 10 ? "0" + n : n;
 }
 
-// Desactivar solo botón dos
-function disableBtnTwo() {
-    btnTwo.disabled = true;
-    btnTwo.innerText = "Registro cerrado";
-    btnTwo.classList.add("disabled");
-    messageTwo.style.display = "block";
-
-    Swal.fire({
-        icon: "error",
-        title: "⏰ Registro cerrado",
-        text: "El botón 2 y el formulario ya no están disponibles.",
-        confirmButtonText: "Entendido",
-    });
-}
 
 // Bloqueo del formulario
 function disableForm() {
@@ -96,3 +82,4 @@ form.addEventListener("submit", (e) => {
 
     form.reset();
 });
+
